@@ -37,3 +37,9 @@ jobs:
                   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
             - name: Helm lint
               run: helm lint charts/flask-app
+            - name: Docker build test
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  push: false
+                  tags: flask-helm-k8s:test
