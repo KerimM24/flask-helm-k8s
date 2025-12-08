@@ -32,3 +32,8 @@ jobs:
             - name: Python check
               run: |
                   python -m compileall app
+            - name: Helm install
+              run: |
+                  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+            - name: Helm lint
+              run: helm lint charts/flask-app
