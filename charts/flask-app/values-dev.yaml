@@ -1,0 +1,59 @@
+replicaCount: 1
+
+image:
+  repository: "clean"
+  tag: "dev"
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5000
+      protocol: TCP
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: dev.myapp.local
+      paths:
+        - path: /hello
+          pathType: Prefix
+          servicePort: 80
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+livenessProbe:
+  httpGet:
+    port: 5000
+    path: /health
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    port: 5000
+    path: /health
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+config:
+  enabled: true
+  data:
+    APP_ENV: "development"
+    APP_PORT: "5000"
+
+backend:
+  port: 5000
+
+secret:
+  enabled: true
+  stringData:
+    APP_SECRET: "dev-secret"

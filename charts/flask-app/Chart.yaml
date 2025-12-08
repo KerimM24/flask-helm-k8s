@@ -1,0 +1,5 @@
+apiVersion: v2
+name: clean-app
+description: "Simple flask application deployed using Kubernetes and Helm"
+version: "0.1.0"
+appVersion: "1.0.0"
